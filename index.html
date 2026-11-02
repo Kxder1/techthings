@@ -137,9 +137,9 @@ a{color:inherit}
 .bar{position:sticky; top:0; z-index:20; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   background:rgba(10,26,61,.72); border-bottom:1px solid rgba(34,59,112,.7)}
 .bar .shell{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:64px}
-.brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em}
-.brand svg{width:34px; height:34px; flex:none}
-.brand .lb{fill:var(--blue)} .brand .lf{fill:var(--amber)}
+.bar .brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em}
+.bar .brand svg{width:34px; height:34px; flex:none}
+.bar .brand .lb{fill:var(--blue)} .bar .brand .lf{fill:var(--amber)}
 .bar nav{display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end}
 .bar nav a{text-decoration:none; color:var(--dim); font-weight:500; font-size:14.5px; padding:8px 12px; border-radius:999px; transition:color .2s, background .2s}
 .bar nav a:hover{color:var(--ink); background:rgba(111,155,255,.12)}
@@ -280,7 +280,7 @@ footer nav a{text-decoration:none} footer nav a:hover{color:var(--ink)}
 @media (max-width:640px){
   .bar nav a{padding:7px 9px; font-size:13.5px}
   .bar nav .opt{display:none}
-  .brand span{display:none}
+  .bar .brand span{display:none}
   #deals{grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px}
   #deals .btn{white-space:normal; font-size:13px; padding:9px 8px}
   #list .item{grid-template-columns:44px 68px minmax(0,1fr); gap:12px; padding:14px 6px}
