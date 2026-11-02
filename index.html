@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>if(location.protocol==="http:"&&/(^|\.)techthings\.cc$/.test(location.hostname))location.replace("https://"+location.host+location.pathname+location.search+location.hash);</script>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3289369952589760"
      crossorigin="anonymous"></script>
 <meta name="google-adsense-account" content="ca-pub-3289369952589760">
@@ -35,7 +37,8 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Tech Things","alternateName":"Friday Tech Top 10","url":"https://techthings.cc/","logo":"https://techthings.cc/icon-512.png"}</script>
 <style>body{margin:0}*{box-sizing:border-box}img{max-width:100%}html{scroll-behavior:smooth}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 
 <script>
 /* ============================================================
@@ -49,7 +52,7 @@ const SETTINGS = {
   // Email shown in the Contact section and the Privacy Policy.
   CONTACT_EMAIL: "contact@techthings.cc",
 
-  // Google AdSense. Leave ADSENSE_CLIENT empty to show gray "Ad space" boxes.
+  // Google AdSense. Ad spots stay hidden until a slot ID is filled in below.
   // Fill it in (e.g. "ca-pub-1234567890123456") plus a slot ID for each spot.
   ADSENSE_CLIENT: "ca-pub-3289369952589760",
   AD_SLOTS: {
@@ -99,99 +102,230 @@ const CHART = {
 </script>
 
 <style>
-/* Layout: one page, two boards (deals on top, best sellers below), big rank numerals, ad slots top / between boards / bottom */
+/* Tech Things: weekly "drop" layout. Hero = live countdown to the Friday reset,
+   deals = shop tiles, best sellers = leaderboard. */
 :root{
-  --bg:#f2f8f7; --surface:#ffffff; --fg:#0f2347; --muted:#4d6077; --line:#d4e2e2;
-  --accent:#14306a; --accent-fg:#8ef0d2; --hi:#0e9b80; --ad:#e5efee; --cta:#ffa41c; --cta-fg:#0f2347; --orange:#b85a00; --logo-b:#14306a;
-  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --night:#0a1a3d; --deep:#07132e; --panel:#10265a; --panel-2:#14306c; --line:#223b70;
+  --ink:#edf3ff; --dim:#9db1d4; --teal:#8ef0d2; --amber:#ffa41c; --blue:#6f9bff;
+  --well:#ffffff;
+  --display:"Unbounded", "Arial Black", system-ui, sans-serif;
   --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --gutter:max(18px, env(safe-area-inset-left, 0px));
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0b1730; --surface:#12224a; --fg:#e8f3f1; --muted:#9db2c4; --line:#22365c;
-  --accent:#8ef0d2; --accent-fg:#0b1730; --hi:#8ef0d2; --ad:#13254a; --cta:#ffa41c; --cta-fg:#0b1730; --orange:#ffb44d; --logo-b:#6f9bff; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0b1730; --surface:#12224a; --fg:#e8f3f1; --muted:#9db2c4; --line:#22365c;
-  --accent:#8ef0d2; --accent-fg:#0b1730; --hi:#8ef0d2; --ad:#13254a; --cta:#ffa41c; --cta-fg:#0b1730; --orange:#ffb44d; --logo-b:#6f9bff; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
-.wrap{max-width:760px;margin:0 auto;padding-block:36px 48px;
-  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
-  display:grid;gap:24px}
-header{display:grid;gap:10px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--fg);text-decoration:none;font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.01em;margin-bottom:6px;width:max-content}
-.brand svg{width:38px;height:38px;flex:none}
-.brand .lb{fill:var(--logo-b)} .brand .lf{fill:var(--cta)}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,56px);line-height:1;margin:0;letter-spacing:-.02em;text-wrap:balance}
-.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:13.5px}
-.meta b{color:var(--fg);font-weight:600}
+html{background:var(--deep)}
+body{
+  background:
+    radial-gradient(1100px 620px at 82% -8%, rgba(111,155,255,.22), transparent 60%),
+    radial-gradient(800px 500px at -10% 30%, rgba(142,240,210,.08), transparent 60%),
+    var(--night);
+  background-attachment:fixed;
+  color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+body::after{ /* faint dot grid */
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+  background-image:radial-gradient(rgba(157,177,212,.14) 1px, transparent 1px);
+  background-size:26px 26px;
+  mask-image:linear-gradient(to bottom, #000 0%, transparent 70%);
+}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:6px}
+.shell{max-width:1180px; margin:0 auto; padding-left:var(--gutter); padding-right:max(18px, env(safe-area-inset-right, 0px))}
 
-.ad{min-height:100px;background:var(--ad);border:1px dashed var(--line);border-radius:6px;
-  display:grid;place-items:center;color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;overflow:hidden}
-.ad.live{background:transparent;border:0;min-height:0;display:block}
-.ad.in-list{margin:4px 0}
-/* Ad boxes stay hidden until a real AdSense slot ID is filled in */
+/* ---------- top bar ---------- */
+.bar{position:sticky; top:0; z-index:20; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  background:rgba(10,26,61,.72); border-bottom:1px solid rgba(34,59,112,.7)}
+.bar .shell{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:64px}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-.01em}
+.brand svg{width:34px; height:34px; flex:none}
+.brand .lb{fill:var(--blue)} .brand .lf{fill:var(--amber)}
+.bar nav{display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end}
+.bar nav a{text-decoration:none; color:var(--dim); font-weight:500; font-size:14.5px; padding:8px 12px; border-radius:999px; transition:color .2s, background .2s}
+.bar nav a:hover{color:var(--ink); background:rgba(111,155,255,.12)}
+
+/* ---------- hero ---------- */
+.hero{display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:48px; align-items:center; padding-block:72px 56px}
+.hero h1{font-family:var(--display); font-weight:800; font-size:clamp(34px, 5.6vw, 64px); line-height:1.04; letter-spacing:-.035em; margin:0 0 22px; text-wrap:balance}
+.hero h1 span{display:block}
+.hero h1 .l2{color:var(--teal)}
+.intro{margin:0 0 22px; max-width:56ch; color:var(--dim); font-size:17px}
+.meta{display:flex; flex-wrap:wrap; gap:6px 18px; color:var(--dim); font-size:14.5px; margin-bottom:28px}
+.meta b{color:var(--ink); font-weight:600}
+.cta{display:flex; flex-wrap:wrap; gap:12px}
+.cta a{text-decoration:none; font-weight:600; font-size:15px; padding:13px 20px; border-radius:12px; transition:transform .18s ease, background .2s, border-color .2s}
+.cta .go{background:var(--amber); color:#14203f}
+.cta .alt{border:1px solid var(--line); color:var(--ink)}
+.cta a:hover{transform:translateY(-2px)}
+.cta .alt:hover{border-color:var(--blue)}
+
+/* the drop clock */
+.drop{position:relative; background:linear-gradient(160deg, var(--panel-2), var(--panel) 60%); border:1px solid var(--line); border-radius:24px; padding:26px 26px 22px; box-shadow:0 30px 80px -30px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06); overflow:hidden}
+.drop::before{content:""; position:absolute; inset:-40% -20% auto auto; width:320px; height:320px; background:radial-gradient(circle, rgba(255,164,28,.28), transparent 65%); pointer-events:none}
+.drop h2{position:relative; font-family:var(--display); font-weight:600; font-size:15px; letter-spacing:0; margin:0 0 16px; color:var(--dim)}
+.clock{position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+.unit{background:rgba(7,19,46,.6); border:1px solid var(--line); border-radius:14px; padding:14px 6px 10px; text-align:center; overflow:hidden}
+.unit b{display:block; font-family:var(--display); font-weight:700; font-size:clamp(28px, 4vw, 42px); line-height:1; font-variant-numeric:tabular-nums; color:var(--ink)}
+.unit span{display:block; margin-top:8px; font-size:12.5px; color:var(--dim)}
+.unit.s b{color:var(--amber)}
+.unit b.roll{animation:roll .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes roll{from{transform:translateY(-60%); opacity:0} to{transform:none; opacity:1}}
+.drop .when{position:relative; margin:16px 0 0; font-size:14px; color:var(--dim)}
+.leader{position:relative; display:flex; align-items:center; gap:14px; margin-top:18px; padding:12px; border-radius:16px; background:rgba(142,240,210,.08); border:1px solid rgba(142,240,210,.22); text-decoration:none}
+.leader[hidden]{display:none}
+.leader img{width:60px; height:60px; object-fit:contain; background:var(--well); border-radius:10px; padding:5px; flex:none; font-size:0; color:transparent}
+.leader small{display:block; color:var(--teal); font-weight:600; font-size:12.5px}
+.leader strong{display:block; font-weight:600; font-size:15px; line-height:1.3}
+
+/* page-load sequence: the hero assembles once */
+@media (prefers-reduced-motion: no-preference){
+  .hero h1 span, .intro, .meta, .cta, .drop{animation:rise .7s cubic-bezier(.2,.8,.2,1) backwards}
+  .hero h1 .l2{animation-delay:.08s} .intro{animation-delay:.16s} .meta{animation-delay:.22s}
+  .cta{animation-delay:.28s} .drop{animation-delay:.2s}
+}
+@keyframes rise{from{opacity:0; transform:translateY(18px)}}
+
+/* ---------- ads (hidden until a real slot is set) ---------- */
+.ad{margin-block:8px}
+.ad.live{display:block}
 .ad:not(.live){display:none}
 
-ol{list-style:none;margin:0;padding:0;border-top:3px solid var(--cta)}
-.board{display:grid;gap:10px}
-.board-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
-.board-head h2{font-family:var(--display);font-weight:800;font-size:clamp(24px,4.4vw,32px);line-height:1.1;margin:0;letter-spacing:-.01em;text-wrap:balance}
-.board-head p{margin:0;color:var(--muted);font-size:13.5px}
-.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--cta);color:var(--cta-fg);padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:2px}
-li.item{display:grid;grid-template-columns:64px 88px 1fr auto;gap:4px 16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
-li.adrow{padding:16px 0;border-bottom:1px solid var(--line)}
-.rank{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
-li.item:nth-child(-n+3) .rank{color:var(--hi)}
-.thumb{width:88px;height:88px;border-radius:8px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
-.thumb img{width:100%;height:100%;object-fit:contain;padding:6px;box-sizing:border-box;font-size:0;color:transparent}
-.info{min-width:0;display:grid;gap:2px}
-.name{font-weight:600;font-size:16.5px;overflow-wrap:anywhere}
-.brand{font-size:13px;color:var(--muted)}
-.btn{display:inline-block;background:var(--cta);color:var(--cta-fg);text-decoration:none;font-weight:600;font-size:13.5px;
-  padding:9px 14px;border-radius:6px;white-space:nowrap}
-.btn:hover{filter:brightness(1.06)}
-.btn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+/* ---------- sections ---------- */
+.board{padding-block:40px}
+.board-head{display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:6px 20px; margin-bottom:22px}
+.board-head h2{font-family:var(--display); font-weight:700; font-size:clamp(24px, 3.4vw, 34px); line-height:1.1; letter-spacing:-.025em; margin:0; text-wrap:balance}
+.board-head p{margin:0; color:var(--dim); font-size:15px}
+ol{list-style:none; margin:0; padding:0}
 
-.intro{margin:0;max-width:62ch;color:var(--muted);font-size:15.5px}
-nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px}
-nav a,footer nav a{color:var(--muted);text-decoration:none;font-weight:500}
-nav a:hover{color:var(--fg);text-decoration:underline;text-decoration-color:var(--cta);text-underline-offset:3px}
-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+/* deals: shop tiles */
+#deals{display:grid; grid-template-columns:repeat(auto-fill, minmax(196px, 1fr)); gap:16px}
+#deals .item{position:relative; display:flex; flex-direction:column; background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:10px 10px 14px; transition:transform .22s ease, border-color .22s, box-shadow .22s}
+#deals .item:hover{transform:translateY(-4px); border-color:rgba(255,164,28,.55); box-shadow:0 18px 40px -20px rgba(255,164,28,.45)}
+#deals .rank{display:none}
+#deals .thumb{display:grid; place-items:center; aspect-ratio:1/1; max-width:100%; background:var(--well); border-radius:12px; overflow:hidden}
+#deals .thumb img{width:82%; height:82%; object-fit:contain; transition:transform .35s ease; font-size:0; color:transparent}
+#deals .item:hover .thumb img{transform:scale(1.06)}
+#deals .info{display:grid; gap:2px; padding:12px 4px 12px; flex:1; min-width:0}
+#deals .name{font-weight:600; font-size:15px; line-height:1.3; overflow-wrap:anywhere}
+#deals .brand{color:var(--dim); font-size:13.5px}
+#deals .tag{position:absolute; top:18px; left:18px; background:var(--amber); color:#14203f; font-weight:700; font-size:12px; padding:3px 9px; border-radius:999px}
+#deals .btn{margin:0 4px; text-align:center}
 
-.pages{display:grid;gap:0;border-top:2px solid var(--fg);margin-top:8px}
-.pages section{padding-block:22px;border-bottom:1px solid var(--line);scroll-margin-top:16px;display:grid;gap:10px}
-.pages h2{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.1;margin:0;letter-spacing:-.01em}
-.pages h3{font-size:15px;font-weight:600;margin:8px 0 0}
-.pages p,.pages ul{margin:0;max-width:65ch;color:var(--fg)}
-.pages ul{padding-left:20px;display:grid;gap:4px}
-.pages a{color:var(--fg);text-decoration-color:var(--cta);text-underline-offset:3px}
-.small{font-size:12.5px;color:var(--muted)}
-.email{font-family:var(--mono);font-size:14px;user-select:all}
+/* best sellers: leaderboard */
+#list{border-top:1px solid var(--line)}
+#list .item{display:grid; grid-template-columns:78px 84px minmax(0,1fr) auto; align-items:center; gap:18px; padding:16px 12px; border-bottom:1px solid var(--line); border-radius:0; transition:background .2s}
+#list .item:hover{background:rgba(111,155,255,.06)}
+#list .rank{font-family:var(--display); font-weight:800; font-size:44px; line-height:1; font-variant-numeric:tabular-nums; color:transparent; -webkit-text-stroke:1.5px var(--dim); text-align:center}
+#list .item:nth-child(2) .rank, #list .item:nth-child(3) .rank{color:var(--teal); -webkit-text-stroke:0}
+#list .item:first-child{background:linear-gradient(90deg, rgba(255,164,28,.12), transparent 70%); border-radius:18px; border-bottom-color:transparent; margin-bottom:6px; padding-block:22px}
+#list .item:first-child .rank{color:var(--amber); -webkit-text-stroke:0; font-size:58px}
+#list .item:first-child .thumb{width:104px; height:104px}
+#list .thumb{display:grid; place-items:center; width:84px; height:84px; background:var(--well); border-radius:14px; overflow:hidden}
+#list .thumb img{width:84%; height:84%; object-fit:contain; font-size:0; color:transparent}
+#list .info{display:grid; gap:2px; min-width:0}
+#list .name{font-weight:600; font-size:16.5px; line-height:1.3; overflow-wrap:anywhere}
+#list .brand{color:var(--dim); font-size:14px}
 
-footer{font-size:12.5px;color:var(--muted);display:grid;gap:8px}
-footer strong{color:var(--fg);font-weight:600}
-@media (max-width:480px){
-  li.item{grid-template-columns:40px 72px 1fr;row-gap:10px;column-gap:12px}
-  .rank{font-size:32px}
-  .thumb{width:72px;height:72px}
-  .btn{grid-column:3;justify-self:start}
+.btn{display:inline-block; background:var(--amber); color:#14203f; text-decoration:none; font-weight:600; font-size:14px; padding:10px 16px; border-radius:10px; white-space:nowrap; transition:filter .2s, transform .18s}
+.btn:hover{filter:brightness(1.08); transform:translateY(-1px)}
+
+/* ---------- FAQ ---------- */
+.faq{padding-block:40px}
+.faq h2, .info-grid h2{font-family:var(--display); font-weight:700; font-size:clamp(22px, 3vw, 28px); letter-spacing:-.02em; margin:0 0 18px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-of-type{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 4px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary h3{margin:0; font-size:17px; font-weight:600; line-height:1.35}
+.faq summary::after{content:"+"; flex:none; width:30px; height:30px; display:grid; place-items:center; border-radius:999px; border:1px solid var(--line); color:var(--teal); font-size:20px; line-height:1; transition:transform .25s ease, background .2s}
+.faq details[open] summary::after{transform:rotate(45deg); background:rgba(142,240,210,.1)}
+.faq details p{margin:0 4px 20px; max-width:70ch; color:var(--dim)}
+.faq details[open] p{animation:open .3s ease}
+@keyframes open{from{opacity:0; transform:translateY(-6px)}}
+
+/* ---------- about / contact ---------- */
+.info-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:20px; padding-block:24px 40px}
+.info-grid section{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:26px; min-width:0}
+.info-grid p{margin:0 0 12px; color:var(--dim); max-width:62ch}
+.email{display:inline-block; font-weight:600; color:var(--ink); background:rgba(142,240,210,.1); border:1px solid rgba(142,240,210,.25); padding:8px 14px; border-radius:10px; user-select:all; overflow-wrap:anywhere}
+
+/* ---------- privacy (folded) ---------- */
+.policy{border:1px solid var(--line); border-radius:20px; padding:0 26px; margin-bottom:40px; scroll-margin-top:84px}
+.policy summary{list-style:none; cursor:pointer; padding:20px 0; display:flex; justify-content:space-between; align-items:center; gap:12px}
+.policy summary::-webkit-details-marker{display:none}
+.policy summary h2{margin:0; font-size:17px; font-weight:600; font-family:var(--body)}
+.policy summary span{color:var(--teal); font-size:14px; font-weight:500}
+.policy[open] summary span{visibility:hidden}
+.policy .body{padding-bottom:24px; color:var(--dim); max-width:72ch}
+.policy h3{color:var(--ink); font-size:15.5px; margin:22px 0 6px}
+.policy p, .policy ul{margin:0 0 10px}
+.policy ul{padding-left:20px}
+.policy a{color:var(--teal)}
+.small{font-size:13.5px}
+
+section[id], .faq, .board{scroll-margin-top:80px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line); padding-block:28px 40px; color:var(--dim); font-size:14px}
+footer .shell{display:flex; flex-wrap:wrap; gap:14px 28px; justify-content:space-between; align-items:center}
+footer strong{color:var(--ink); font-weight:600}
+footer nav{display:flex; gap:18px}
+footer nav a{text-decoration:none} footer nav a:hover{color:var(--ink)}
+
+/* ---------- small screens ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr; gap:32px; padding-block:44px 36px}
+  .info-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .bar nav a{padding:7px 9px; font-size:13.5px}
+  .bar nav .opt{display:none}
+  .brand span{display:none}
+  #deals{grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px}
+  #deals .btn{white-space:normal; font-size:13px; padding:9px 8px}
+  #list .item{grid-template-columns:44px 68px minmax(0,1fr); gap:12px; padding:14px 6px}
+  #list .rank{font-size:30px}
+  #list .item:first-child .rank{font-size:38px}
+  #list .thumb, #list .item:first-child .thumb{width:68px; height:68px}
+  #list .btn{grid-column:3; justify-self:start}
+  .unit b{font-size:26px}
+  .drop{padding:20px 18px 18px}
+}
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation:none !important; transition:none !important; scroll-behavior:auto !important}
 }
 </style>
-
 </head>
 <body>
-<div class="wrap">
-  <header id="top">
-    <a class="brand" href="#top" aria-label="Tech Things home"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="lb" d="M0.00 22.37 L65.79 22.37 L70.21 40.79 L4.42 40.79 Z M23.68 22.37 L42.11 22.37 L59.79 96.05 L41.37 96.05 Z"/><path class="lf" d="M29.79 3.95 L95.58 3.95 L100.00 22.37 L34.21 22.37 Z M53.47 3.95 L71.89 3.95 L89.58 77.63 L71.16 77.63 Z"/></svg>Tech Things</a>
-    <div class="eyebrow">Friday Tech Top 10 · Tech &amp; gaming deals and best sellers</div>
-    <h1>Best Tech &amp; Gaming Deals + Top 10 Gadgets This&nbsp;Week</h1>
-    <p class="intro">This week's best tech and gaming deals on Amazon, plus the top 10 best-selling gadgets people use every day: wireless earbuds, headphones, gaming headsets, controllers, consoles, tablets, phones and keyboards. A new top 10 list of tech things every Friday.</p>
-    <div class="meta" id="meta"><span>Week of <b>November 2, 2026</b></span><span>New list every Friday</span></div>
+<header class="bar">
+  <div class="shell">
+    <a class="brand" href="#top" aria-label="Tech Things home"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="lb" d="M0.00 22.37 L65.79 22.37 L70.21 40.79 L4.42 40.79 Z M23.68 22.37 L42.11 22.37 L59.79 96.05 L41.37 96.05 Z"/><path class="lf" d="M29.79 3.95 L95.58 3.95 L100.00 22.37 L34.21 22.37 Z M53.47 3.95 L71.89 3.95 L89.58 77.63 L71.16 77.63 Z"/></svg><span>Tech Things</span></a>
     <nav aria-label="Site">
-      <a href="#about">About</a><a href="#contact">Contact</a><a href="#privacy">Privacy Policy</a>
+      <a href="#deals-board">Deals</a><a href="#best">Top 10</a><a href="#faq">FAQ</a><a class="opt" href="#about">About</a>
     </nav>
-  </header>
+  </div>
+</header>
+
+<main class="shell" id="top">
+  <section class="hero" aria-labelledby="hero-h">
+    <div>
+      <h1 id="hero-h"><span class="l1">Best Tech &amp; Gaming Deals</span><span class="l2">+ Top 10 Gadgets This&nbsp;Week</span></h1>
+      <p class="intro">This week's best tech and gaming deals on Amazon, plus the top 10 best-selling gadgets people use every day: wireless earbuds, headphones, gaming headsets, controllers, consoles, tablets, phones and keyboards. A new top 10 list of tech things every Friday.</p>
+      <div class="meta" id="meta"><span>Week of <b>November 2, 2026</b></span><span>New list every Friday</span></div>
+      <div class="cta"><a class="go" href="#deals-board">Shop this week's deals</a><a class="alt" href="#best">See the top 10</a></div>
+    </div>
+    <aside class="drop" aria-labelledby="drop-h">
+      <h2 id="drop-h">Next drop in</h2>
+      <div class="clock" id="clock">
+        <div class="unit"><b data-u="d">–</b><span>days</span></div>
+        <div class="unit"><b data-u="h">–</b><span>hours</span></div>
+        <div class="unit"><b data-u="m">–</b><span>min</span></div>
+        <div class="unit s"><b data-u="s">–</b><span>sec</span></div>
+      </div>
+      <p class="when">New deals and a fresh top 10 every Friday at 2 AM Central. Nothing from last week comes back.</p>
+      <a class="leader" id="leader" href="#best" hidden><img id="leader-img" src="data:," alt="" width="60" height="60"><span><small>This week's #1</small><strong id="leader-name"></strong></span></a>
+    </aside>
+  </section>
 
   <div class="ad" data-slot="top">Ad space</div>
 
@@ -252,7 +386,7 @@ footer strong{color:var(--fg);font-weight:600}
 
   <div class="ad" data-slot="middle">Ad space</div>
 
-  <section class="board" aria-labelledby="best-h">
+  <section class="board" id="best" aria-labelledby="best-h">
     <div class="board-head"><h2 id="best-h">Top 10 Best-Selling Tech Gadgets</h2><p>The everyday and gaming tech people are buying most</p></div>
     <ol id="list"><li class="item">
       <div class="rank">1</div>
@@ -309,41 +443,34 @@ footer strong{color:var(--fg);font-weight:600}
 
   <div class="ad" data-slot="bottom">Ad space</div>
 
-  <div class="pages">
-    <section id="faq">
-      <h2>Tech &amp; gaming gadget FAQ</h2>
-      <h3>What are the best tech gadgets right now?</h3>
-      <p>The top 10 list above shows the best-selling tech gadgets on Amazon this week. Best-seller rank is based on real sales, so it's a good signal of what people are actually buying.</p>
-      <h3>What are the best tech deals this week?</h3>
-      <p>The deals section at the top lists tech and gaming gear on sale at Amazon this week. Sale prices change fast and some deals end early, so tap through to see the current price.</p>
-      <h3>What are the best gaming deals right now?</h3>
-      <p>Look for the controllers, gaming headsets, consoles and handhelds in this week's deals. We include gaming gear every week alongside everyday tech.</p>
-      <h3>What are the best wireless earbuds and headphones to buy?</h3>
-      <p>Earbuds and headphones are some of the best-selling tech on Amazon almost every week. The lists above show which ones are selling and on sale right now, from budget picks to noise cancelling headphones.</p>
-      <h3>What tech do people use every day?</h3>
-      <p>Everyday tech means the gadgets you actually use daily: earbuds, headphones, phones, tablets, smartwatches, keyboards, mice and portable speakers. That's what we focus on, plus gaming gear.</p>
-      <h3>What are good tech gifts and gifts for gamers?</h3>
-      <p>Best-selling gadgets make easy gifts because lots of people already own and like them. Earbuds, headphones, game controllers and gaming headsets are popular tech gifts for teens, adults and gamers.</p>
-      <h3>How often is this top 10 tech list updated?</h3>
-      <p>Every Friday. Each new list has products that weren't on the previous week's list, so you see different trending tech and gaming gear every week.</p>
-      <h3>Where do the products come from?</h3>
-      <p>From Amazon's Electronics and Video Games best-seller lists and Amazon's current deals. We skip accessories and replacement parts and focus on everyday and gaming tech.</p>
-    </section>
+  <section class="faq" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Tech &amp; gaming gadget FAQ</h2>
+    <details><summary><h3>What are the best tech gadgets right now?</h3></summary><p>The top 10 list above shows the best-selling tech gadgets on Amazon this week. Best-seller rank is based on real sales, so it's a good signal of what people are actually buying.</p></details>
+    <details><summary><h3>What are the best tech deals this week?</h3></summary><p>The deals section at the top lists tech and gaming gear on sale at Amazon this week. Sale prices change fast and some deals end early, so tap through to see the current price.</p></details>
+    <details><summary><h3>What are the best gaming deals right now?</h3></summary><p>Look for the controllers, gaming headsets, consoles and handhelds in this week's deals. We include gaming gear every week alongside everyday tech.</p></details>
+    <details><summary><h3>What are the best wireless earbuds and headphones to buy?</h3></summary><p>Earbuds and headphones are some of the best-selling tech on Amazon almost every week. The lists above show which ones are selling and on sale right now, from budget picks to noise cancelling headphones.</p></details>
+    <details><summary><h3>What tech do people use every day?</h3></summary><p>Everyday tech means the gadgets you actually use daily: earbuds, headphones, phones, tablets, smartwatches, keyboards, mice and portable speakers. That's what we focus on, plus gaming gear.</p></details>
+    <details><summary><h3>What are good tech gifts and gifts for gamers?</h3></summary><p>Best-selling gadgets make easy gifts because lots of people already own and like them. Earbuds, headphones, game controllers and gaming headsets are popular tech gifts for teens, adults and gamers.</p></details>
+    <details><summary><h3>How often is this top 10 tech list updated?</h3></summary><p>Every Friday. Each new list has products that weren't on the previous week's list, so you see different trending tech and gaming gear every week.</p></details>
+    <details><summary><h3>Where do the products come from?</h3></summary><p>From Amazon's Electronics and Video Games best-seller lists and Amazon's current deals. We skip accessories and replacement parts and focus on everyday and gaming tech.</p></details>
+  </section>
 
-    <section id="about">
-      <h2>About</h2>
+  <div class="info-grid">
+    <section id="about" aria-labelledby="about-h">
+      <h2 id="about-h">About</h2>
       <p>Friday Tech Top 10 is a quick weekly look at the tech people are actually buying. Every Friday, we pull the top sellers from Amazon's Electronics and Video Games best-seller lists and post 10 everyday and gaming picks here.</p>
       <p>Each week's list is all new: no product from the week before shows up again, so there's always something fresh to check out. Prices change constantly, so every pick links straight to Amazon, where you can see the current price and reviews.</p>
     </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
+    <section id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Contact</h2>
       <p>Questions, a broken link, or a product you think we missed? Email us and we'll get back to you.</p>
       <p><span class="email" data-email>contact@techthings.cc</span></p>
     </section>
+  </div>
 
-    <section id="privacy">
-      <h2>Privacy Policy</h2>
+  <details class="policy" id="privacy">
+    <summary><h2>Privacy Policy</h2><span>Read policy</span></summary>
+    <div class="body">
       <p class="small">Last updated October 28, 2026</p>
       <p>This policy explains what information is collected when you visit Friday Tech Top 10 and how it's used.</p>
 
@@ -359,7 +486,7 @@ footer strong{color:var(--fg);font-weight:600}
       </ul>
 
       <h3>Amazon Associates</h3>
-      <p>Friday Tech Top 10 is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. When you click a product link, Amazon may set cookies to track the referral. As an Amazon Associate we earn from qualifying purchases, at no extra cost to you.</p>
+      <p>Tech Things (Friday Tech Top 10) is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. When you click a product link, Amazon may set cookies to track the referral. As an Amazon Associate we earn from qualifying purchases, at no extra cost to you.</p>
 
       <h3>Third-party links</h3>
       <p>Product links take you to Amazon, which has its own privacy policy. We're not responsible for the practices of sites we link to.</p>
@@ -369,18 +496,18 @@ footer strong{color:var(--fg);font-weight:600}
 
       <h3>Changes and questions</h3>
       <p>We may update this policy from time to time; the date at the top shows the latest version. Questions about privacy can go to <span class="email" data-email>contact@techthings.cc</span>.</p>
-    </section>
-  </div>
+    
+    </div>
+  </details>
+</main>
 
-  <footer>
+<footer>
+  <div class="shell">
     <strong>As an Amazon Associate I earn from qualifying purchases.</strong>
-    <span>Picks come from Amazon's Electronics and Video Games best sellers and refresh every Friday with 10 products that weren't on last week's list. Click through for current price and reviews.</span>
-    <nav aria-label="Footer">
-      <a href="#about">About</a><a href="#contact">Contact</a><a href="#privacy">Privacy Policy</a>
-    </nav>
-    <span>© <span id="year"></span> Friday Tech Top 10</span>
-  </footer>
-</div>
+    <nav aria-label="Footer"><a href="#about">About</a><a href="#contact">Contact</a><a href="#privacy">Privacy Policy</a></nav>
+    <span>© <span id="year">2026</span> Tech Things</span>
+  </div>
+</footer>
 
 <script>
 (function(){
@@ -436,8 +563,61 @@ footer strong{color:var(--fg);font-weight:600}
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     });
   }
+
+  // ---- Drop clock: counts down to the next Friday 2:00 AM Central ----
+  (function(){
+    const clock = document.getElementById("clock");
+    if (!clock || !window.Intl) return;
+    const TZ = "America/Chicago";
+    const fmt = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hourCycle: "h23", weekday: "short",
+      year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const parts = d => Object.fromEntries(fmt.formatToParts(d).map(p => [p.type, p.value]));
+    // Minutes Chicago is behind UTC at instant d (300 or 360).
+    const offset = d => { const p = parts(d); return (Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second) - Math.floor(d / 1000) * 1000) / 60000; };
+    const nextDrop = now => {
+      for (let k = 0; k <= 8; k++) {
+        const day = new Date(now.getTime() + k * 864e5), p = parts(day);
+        if (p.weekday !== "Fri") continue;
+        let t = Date.UTC(+p.year, +p.month - 1, +p.day, 2, 0, 0) - offset(day) * 60000;
+        t = Date.UTC(+p.year, +p.month - 1, +p.day, 2, 0, 0) - offset(new Date(t)) * 60000;
+        if (t > now.getTime()) return t;
+      }
+      return now.getTime() + 7 * 864e5;
+    };
+    const cells = {}; clock.querySelectorAll("b[data-u]").forEach(b => cells[b.dataset.u] = b);
+    const pad = n => String(n).padStart(2, "0");
+    let target = nextDrop(new Date());
+    const tick = () => {
+      let ms = target - Date.now();
+      if (ms <= 0) { target = nextDrop(new Date(Date.now() + 1000)); ms = target - Date.now(); }
+      const s = Math.floor(ms / 1000);
+      const v = { d: String(Math.floor(s / 86400)), h: pad(Math.floor(s / 3600) % 24), m: pad(Math.floor(s / 60) % 60), s: pad(s % 60) };
+      for (const u in v) {
+        const b = cells[u]; if (!b || b.textContent === v[u]) continue;
+        b.textContent = v[u]; b.classList.remove("roll"); void b.offsetWidth; b.classList.add("roll");
+      }
+    };
+    tick(); setInterval(tick, 1000);
+  })();
+
+  // ---- "This week's #1" teaser in the hero, taken from the leaderboard ----
+  (function(){
+    const first = document.querySelector("#list .item"), box = document.getElementById("leader");
+    if (!first || !box) return;
+    const img = first.querySelector(".thumb img"), name = first.querySelector(".name");
+    if (img) { const li = document.getElementById("leader-img"); li.src = img.src; li.alt = img.alt; }
+    document.getElementById("leader-name").textContent = name ? name.textContent : "";
+    box.hidden = false;
+  })();
+
+  // ---- Open the privacy policy when someone follows a #privacy link ----
+  (function(){
+    const pol = document.getElementById("privacy");
+    const openIfAsked = () => { if (location.hash === "#privacy" && pol) pol.open = true; };
+    window.addEventListener("hashchange", openIfAsked); openIfAsked();
+    document.querySelectorAll('a[href="#privacy"]').forEach(a => a.addEventListener("click", () => { if (pol) pol.open = true; }));
+  })();
 })();
 </script>
-
 </body>
 </html>

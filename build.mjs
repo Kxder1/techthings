@@ -6,8 +6,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 const file = new URL("./index.html", import.meta.url);
 let html = readFileSync(file, "utf8");
 
-// Load SETTINGS and CHART from the first inline <script>.
-const first = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+// Load SETTINGS and CHART from the inline <script> that defines them.
+const first = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(c => c.includes("const CHART"));
+if (!first) throw new Error("Could not find the CHART script in index.html");
 const { SETTINGS, CHART } = new Function(first + "; return { SETTINGS, CHART };")();
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
