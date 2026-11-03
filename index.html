@@ -310,6 +310,9 @@ a.kl:hover{border-bottom-color:var(--teal)}
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{animation:none !important; transition:none !important; scroll-behavior:auto !important}
 }
+.bf{background:linear-gradient(90deg,rgba(255,164,28,.16),rgba(142,240,210,.12)); border-bottom:1px solid var(--line); color:var(--ink); font-size:14.5px; text-align:center; padding:10px 16px}
+.bf b{color:var(--amber); font-family:var(--display); font-weight:700}
+.bf a{color:var(--teal); font-weight:600; text-decoration:none; margin-left:6px}
 </style>
 </head>
 <body>
@@ -321,6 +324,8 @@ a.kl:hover{border-bottom-color:var(--teal)}
     </nav>
   </div>
 </header>
+<div class="bf" id="bf" role="note"><b>Black Friday is Nov 27.</b> We pick fresh tech &amp; gaming deals every week and will add extra Black Friday picks as they go live. <a href="#deals-board">See this week's deals &rarr;</a></div>
+<script>(function(){try{var d=Math.ceil((new Date(2026,10,27)-new Date())/864e5),el=document.getElementById("bf");if(d<0){el.hidden=true}else if(d===0){el.querySelector("b").textContent="Black Friday is today."}else{el.querySelector("b").textContent="Black Friday is in "+d+" day"+(d>1?"s":"")+" (Nov 27)."}}catch(e){}})();</script>
 
 <main class="shell" id="top">
   <section class="hero" aria-labelledby="hero-h">
